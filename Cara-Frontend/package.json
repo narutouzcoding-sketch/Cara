@@ -1,0 +1,16 @@
+{
+  "name": "cara-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cara storefront, verified reviews and hybrid checkout",
+  "scripts": {
+    "start": "python server.py",
+    "test": "node --test tests/frontend.test.cjs",
+    "test:server": "python -m unittest discover -s tests -v",
+    "check": "npm test && npm run test:server"
+  },
+  "engines": { "node": ">=24.0.0" },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

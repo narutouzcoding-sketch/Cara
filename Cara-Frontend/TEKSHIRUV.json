@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "date": "2026-10-27",
+  "timezone": "Asia/Tashkent",
+  "scope": "Final local frontend/current Python backend audit and Django handoff preparation",
+  "current_backend": "Python stdlib HTTP server + SQLite; Django is not implemented yet",
+  "environment": {
+    "python": "3.15.0",
+    "node": "24.14.1",
+    "git_repository_present": false
+  },
+  "html_pages": 12,
+  "products": 16,
+  "currency": "UZS",
+  "functional_tests": {
+    "command": "npm test; python -m unittest discover -s tests -v",
+    "frontend_passed": 45,
+    "backend_passed": 50,
+    "total_passed": 95,
+    "failed": 0,
+    "temporary_databases": true
+  },
+  "dependency_audit": {
+    "command": "npm audit --omit=optional --json",
+    "known_vulnerabilities": 0
+  },
+  "python_compile": {
+    "command": "python -m compileall -q server.py backend",
+    "passed": true
+  },
+  "styles": {
+    "text_font": "Creepster",
+    "icon_font": "FontAwesome",
+    "verified_in_browser": true,
+    "theme_preserved": true,
+    "css_validation_errors": []
+  },
+  "static_checks": {
+    "local_links_fragments_scripts_images": "passed in frontend tests",
+    "documentation_links": "passed",
+    "css_files": [
+      "style.css",
+      "enhancements.css"
+    ]
+  },
+  "browser_e2e": {
+    "base_url": "http://localhost:5510",
+    "isolated_test_database": true,
+    "production_qa_accounts": 0,
+    "viewport_widths_checked_this_audit": [
+      512
+    ],
+    "pages_checked": 12,
+    "horizontal_overflow": false,
+    "duplicate_dom_ids": [],
+    "broken_images_with_src": [],
+    "console_errors_or_warnings": [],
+    "steps": [
+      "f2, L, quantity 2",
+      "guest checkout requires login",
+      "register synthetic buyer and return to checkout",
+      "submit cash pickup order for 338000 UZS",
+      "order is pending and cart count becomes zero",
+      "profile shows the order",
+      "mobile menu open/close",
+      "logout and login using email",
+      "repeat checkout with final Web Crypto retry implementation"
+    ],
+    "cash_order_submissions_in_temporary_db": 2,
+    "evidence": [
+      ".audit/final-orders.png",
+      ".audit/final-browser-layout.json"
+    ],
+    "other_viewport_widths_rechecked": false
+  },
+  "maintenance": {
+    "sqlite_online_backup": "WAL committed data, integrity, restore, private location, no overwrite and corrupt-source cleanup tested",
+    "public_catalog_export": "product IDs, prices, UZS, six social profiles and overwrite protection tested",
+    "cli_smoke": "backup and catalog commands passed with temporary database"
+  },
+  "fixes": [
+    "email login field length",
+    "anonymous Django CSRF bootstrap",
+    "relative API base and trailing slashes",
+    "non-JSON proxy/API errors preserve HTTP meaning",
+    "duplicate/corrupt cart normalization and limits",
+    "preserve new cart additions during order submission",
+    "same-tab checkout retry key survives refresh using digest only",
+    "admin dashboard query and customer role checks",
+    "selected order focus",
+    "malformed JSON field types return 400 instead of 500",
+    "actual bound port accepted for same-origin writes",
+    "HEAD responses",
+    "safe backup/catalog commands",
+    "expanded gitignore and unified check command",
+    "fresh audit and Django handoff documentation"
+  ],
+  "preserved": [
+    "Cara theme",
+    "Creepster font",
+    "Font Awesome",
+    "original product images",
+    "Uzbek text",
+    "UZS prices"
+  ],
+  "social_platforms": [
+    "LinkedIn",
+    "Facebook",
+    "WhatsApp",
+    "GitHub",
+    "Instagram",
+    "Telegram"
+  ],
+  "instagram_and_telegram_username": "quvonchbekqos1mov",
+  "payment_methods_default": {
+    "cash": true,
+    "click": false,
+    "payme": false
+  },
+  "prices_are_samples": true,
+  "online_payments_live_tested": false,
+  "external_geocoder_live_availability_guaranteed": false,
+  "django_integration_live_tested": false,
+  "remaining_work": [
+    "Implement Django backend and real Django API tests against the documented contract",
+    "Use a supported Python/Django pair in a separate virtual environment; current Python 3.15 is not for Django 5.2",
+    "Migrate data from a verified backup; legacy password hashes need a custom migration strategy and sessions must be recreated",
+    "Dynamic catalog, variants/stock, search and full order pagination are future features",
+    "Email reset/verification and account-synced wishlist are future features",
+    "Enter real catalog prices and availability",
+    "Merchant credentials, sandbox/acceptance, HTTPS and production deployment/restore checks",
+    "Initialize Git history without committing private data"
+  ],
+  "guides": [
+    "README.md",
+    "docs/FINAL-AUDIT.md",
+    "docs/DJANGO-READY.md",
+    "docs/API-CONTRACT.md",
+    "docs/PROJECT-GUIDE.md",
+    "COMMERCE-SETUP.md"
+  ],
+  "profile_followup": {
+    "date": "2026-10-27",
+    "requested_url": "http://127.0.0.1:5500/Cara-Frontend/profile.html",
+    "current_project_path": "D:\\My Projects\\Cara\\Cara-Frontend",
+    "root_cause": "Live Server 5500 incorrectly used the static origin for API requests; only 5501 had been mapped to 5502",
+    "changes": [
+      "loopback Live Server ports 5500/5501 and nested paths supported",
+      "API allows 5500 CORS origin with session/CSRF intact",
+      "profile/login/orders independent of payment configuration",
+      "login refreshes session after initial outage",
+      "profile reload and expired session recovery",
+      "incomplete profile replies keep forms disabled",
+      "private configuration points to the existing database after project relocation"
+    ],
+    "exact_url_http_check": 200,
+    "api_health_and_session_http_check": 200,
+    "api_cors_origin": "http://127.0.0.1:5500",
+    "live_api_started": true,
+    "production_test_accounts_added": 0,
+    "visual_browser_retest": false,
+    "visual_browser_limitation": "Computer-use runtime could not initialize after the project path moved",
+    "guide": "docs/PROFILE-FIX.md"
+  }
+}
