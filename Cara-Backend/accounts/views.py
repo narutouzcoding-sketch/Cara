@@ -16,6 +16,7 @@ def me(request):
     user_data = None
     if request.user.is_authenticated:
         user_data = {
+            "id": request.user.id,
             'username': request.user.username,
             'email': request.user.email,
             'role': request.user.role,
@@ -23,7 +24,7 @@ def me(request):
     csrf_token = get_token(request)
     return JsonResponse({
         'user': user_data,
-        'csrf': csrf_token,
+        'csrfToken': csrf_token,
     })
 
 @require_POST
@@ -166,7 +167,7 @@ def register(request):
     return JsonResponse(
         {
             "user": user_data,
-            "csrf": csrf_token,
+            "csrfToken": csrf_token,
         },
         status=201,
     )
@@ -227,7 +228,7 @@ def login_view(request):
 
     return JsonResponse({
         "user": user_data,
-        "csrf": csrf_token,
+        "csrfToken": csrf_token,
     })
 
 @require_POST
