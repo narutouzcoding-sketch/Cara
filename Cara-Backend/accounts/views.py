@@ -11,20 +11,25 @@ from django.core.validators import validate_email
 from django.db import IntegrityError, transaction
 from .models import User
 
+
 @require_GET
 def me(request):
     user_data = None
     if request.user.is_authenticated:
         user_data = {
-            'username': request.user.username,
-            'email': request.user.email,
-            'role': request.user.role,
+            "id": request.user.id,
+            "username": request.user.username,
+            "email": request.user.email,
+            "role": request.user.role,
         }
     csrf_token = get_token(request)
-    return JsonResponse({
-        'user': user_data,
-        'csrf': csrf_token,
-    })
+    return JsonResponse(
+        {
+            "user": user_data,
+            "csrfToken": csrf_token,
+        }
+    )
+
 
 @require_POST
 def register(request):
@@ -166,10 +171,11 @@ def register(request):
     return JsonResponse(
         {
             "user": user_data,
-            "csrf": csrf_token,
+            "csrfToken": csrf_token,
         },
         status=201,
     )
+
 
 @require_POST
 def login_view(request):
@@ -202,9 +208,17 @@ def login_view(request):
             status=400,
         )
 
+    username = username.strip()
+
+    saved_username = (
+        User.objects.filter(username__iexact=username)
+        .values_list("username", flat=True)
+        .first()
+    )
+
     user = authenticate(
         request,
-        username=username,
+        username=saved_username or username,
         password=password,
     )
 
@@ -225,10 +239,13 @@ def login_view(request):
         "role": user.role,
     }
 
-    return JsonResponse({
-        "user": user_data,
-        "csrf": csrf_token,
-    })
+    return JsonResponse(
+        {
+            "user": user_data,
+            "csrfToken": csrf_token,
+        }
+    )
+
 
 @require_POST
 def logout_view(request):
@@ -240,11 +257,16 @@ def logout_view(request):
 
     logout(request)
 
-    return JsonResponse({
-        "ok": True,
-    })
+    return JsonResponse(
+        {
+            "ok": True,
+        }
+    )
+
+
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    return render(request, "accounts/profile.html")
+
 
 def change_password(request):
-    return render(request, 'accounts/change_password.html')
+    return render(request, "accounts/change_password.html")
